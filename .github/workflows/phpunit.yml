@@ -31,11 +31,14 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'  # Updated to PHP 8.2
+          php-version: '8.2'
           extensions: pdo_pgsql
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress
+
+      - name: Set execute permissions for PHPUnit
+        run: chmod +x vendor/bin/phpunit
 
       - name: Wait for PostgreSQL to be ready
         run: |
