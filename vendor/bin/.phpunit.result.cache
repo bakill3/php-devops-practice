@@ -1,1 +1,0 @@
-{"version":1,"defects":{"DatabaseTest::testConnectionIsSuccessful":3,"DatabaseTest::testProductsTableExists":3},"times":{"DatabaseTest::testConnectionIsSuccessful":21.057,"DatabaseTest::testProductsTableExists":21.037}}

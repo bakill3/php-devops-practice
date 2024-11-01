@@ -43,8 +43,5 @@ jobs:
       - name: Regenerate Composer Autoloader
         run: composer dump-autoload --optimize
 
-      - name: Set execute permissions for PHPUnit
-        run: chmod +x vendor/bin/phpunit
-
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit tests
