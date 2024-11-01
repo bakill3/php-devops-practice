@@ -34,8 +34,11 @@ jobs:
           php-version: '8.2'
           extensions: pdo_pgsql
 
+      - name: Clear Composer Cache
+        run: composer clear-cache
+
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --no-cache
 
       - name: Set execute permissions for PHPUnit
         run: chmod +x vendor/bin/phpunit
