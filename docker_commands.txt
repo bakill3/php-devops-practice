@@ -1,0 +1,24 @@
+Run the PostgreSQL Container
+docker run --name my-postgres -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_USER=myuser -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+
+Rebuild the Docker Image
+docker build -t php-devops-app .
+
+Run the PHP Container
+docker run --name php-devops-app -p 8081:80 --network mynetwork -d php-devops-app
+
+Check Container Status
+docker ps
+
+Access the Application
+http://localhost:8081
+
+Connect to PostgreSQL Container
+docker exec -it my-postgres psql -U myuser -d mydatabase
+
+List DatabasesW
+\l
+
+List Tables:
+\dt
+
