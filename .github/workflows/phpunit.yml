@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline with Minikube
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     services:
@@ -25,20 +25,68 @@ jobs:
           --health-retries 5
 
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: pdo_pgsql
 
+      # Step 3: Clear Composer Cache
       - name: Clear Composer Cache
         run: composer clear-cache
 
+      # Step 4: Install Composer dependencies
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress
 
+      # Step 5: Regenerate Composer Autoloader
       - name: Regenerate Composer Autoloader
         run: composer dump-autoload --optimize
+
+      # Step 6: Install Minikube
+      - name: Install Minikube
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/
+
+      # Step 7: Start Minikube
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker --kubernetes-version=v1.26.0
+          minikube status
+
+      # Step 8: Use Minikube Docker environment
+      - name: Use Minikube Docker environment
+        run: eval $(minikube docker-env)
+
+      # Step 9: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t bakill3/php-devops-app:latest .
+
+      # Step 10: Deploy to Minikube
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f k8s/
+
+      # Step 11: Wait for Pods to be ready
+      - name: Wait for Pods
+        run: |
+          kubectl wait --for=condition=ready pod -l app=php-app --timeout=120s
+          kubectl get pods
+
+      # Step 12: Get services
+      - name: Get Services
+        run: kubectl get services
+
+      # Step 13: Check logs of the PHP app
+      - name: Get PHP App Logs
+        run: |
+          POD_NAME=$(kubectl get pods -l app=php-app -o jsonpath='{.items[0].metadata.name}')
+          kubectl logs $POD_NAME

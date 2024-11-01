@@ -22,3 +22,26 @@ List DatabasesW
 List Tables:
 \dt
 
+Minikube:
+
+Start Minikube:
+minikube start
+
+Check Minikube Status:
+minikube status
+
+Stop Minikube:
+minikube stop
+
+Deploying and Managing Kubernetes Resources
+Apply Kubernetes Manifests:
+- kubectl apply -f k8s/
+
+Check Deployments:
+kubectl get deployments
+
+Check Services:
+kubectl get services
+
+Check pods:
+kubectl get pods
