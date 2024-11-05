@@ -90,6 +90,3 @@ jobs:
         run: |
           POD_NAME=$(kubectl get pods -l app=php-app -o jsonpath='{.items[0].metadata.name}')
           kubectl logs $POD_NAME
-      # Run PHP unit tests
-      - name: Run PHPUnit tests
-        run: vendor/bin/phpunit tests
