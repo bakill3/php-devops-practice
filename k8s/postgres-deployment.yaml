@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: php-app
-          image: bakill3/php-devops-app:latest  # Replace with your Docker Hub username and image name
-          imagePullPolicy: Always               # Ensures the image is always pulled
+          image: bakill3/php-devops-app:latest 
+          imagePullPolicy: Always              
           ports:
             - containerPort: 80
           env:

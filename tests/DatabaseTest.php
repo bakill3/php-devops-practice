@@ -7,7 +7,7 @@ class DatabaseTest extends TestCase
 
     protected function setUp(): void
     {
-        $host = 'host.docker.internal'; // Adjust if using a different setup
+        $host = 'host.docker.internal';
         $port = '5432';
         $dbname = 'mydatabase';
         $user = 'myuser';
